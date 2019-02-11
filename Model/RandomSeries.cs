@@ -35,7 +35,7 @@ namespace Model
                 firstChart
             };
             Series.Add(secondChart);
-            Points = generateChart.Points;
+            //Points = generateChart.Points;
             return Series;
         }
 

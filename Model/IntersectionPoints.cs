@@ -13,6 +13,8 @@ namespace Model
     public class IntersectionPoints
     {
         public double[] array = new double[20];
+        public double[] interval = new double[20];
+        public string[] intervals = new string[50];
         static public double FindX(double x11, double y11, double x12, double y12, double x21, 
             double y21, double x22, double y22)
         {
@@ -41,10 +43,10 @@ namespace Model
 
         public double[] FindXFinal(List<Tuple<double, double>> first, List<Tuple<double, double>> second)
         {
-            double [] firstX = new double[6];
-            double[] firstY = new double[6];
-            double[] secondX = new double[6];
-            double[] secondY = new double[6];
+            double [] firstX = new double[7];
+            double[] firstY = new double[7];
+            double[] secondX = new double[7];
+            double[] secondY = new double[7];
             for (int i = 0; i < first.Count; i++)
             {
                 firstX[i] = first[i].Item1;
@@ -132,6 +134,83 @@ namespace Model
             }*/
 
             return array;
+        }
+
+        public double[] GetInterval(List<Tuple<double, double>> first,
+            List<Tuple<double, double>> second)
+        {
+            double[] firstX = new double[7];
+            double[] firstY = new double[7];
+            double[] secondX = new double[7];
+            double[] secondY = new double[7];
+            for (int i = 0; i < first.Count; i++)
+            {
+                firstX[i] = first[i].Item1;
+                firstY[i] = first[i].Item2;
+                secondX[i] = second[i].Item1;
+                secondY[i] = second[i].Item2;
+            }
+
+           
+            
+            //interval[0] = 0;
+            for (int i = 1, j = 1, inter = 2; i < first.Count; i++)
+            {
+                if (firstY[i] > secondY[i])
+                {
+                    
+                    while (firstY[i] > secondY[i])
+                    {
+                        i++;
+                    }
+
+                    intervals[j] = "1";
+                    interval[j] = array[inter];
+                    inter+=2;
+                    j++;
+                }
+                if (firstY[i] < secondY[i])
+                {
+                    while (firstY[i] < secondY[i])
+                    {
+                        i++;
+                    }
+
+                    intervals[j] = "2";
+                    interval[j] = array[inter];
+                    inter+=2;
+                    j++;
+                }
+
+            }
+            //for (int i = 1, j = 1; i < first.Count; i++)
+            //{
+            /*if (firstY[i] > secondY[i])
+            {
+                interval[j] = firstX[i];
+                while (firstY[i] > secondY[i])
+                {
+                    i++;
+                }
+
+                interval[j + 1] = firstX[i - 1];
+                j += 2;
+            }
+            if (firstY[i] < secondY[i])
+            {
+                interval[j] = firstY[i];
+                while (firstY[i] < secondY[i])
+                {
+                    i++;
+                }
+
+                interval[j + 1] = secondX[i - 1];
+                j += 2;
+            }
+            */
+            //}
+
+            return interval;
         }
 
     }

@@ -14,7 +14,7 @@ namespace Model
 {
     public class GenerateChart
     {
-        public ChartValues<double> Points { get; set; }
+        
         double[] arraySeries = new double[30];
         double[] array = new double[20];
         double[] arraySeries1 = new double[5];
@@ -105,26 +105,26 @@ namespace Model
                 }
                 Array.Sort(arraySeries1);
 
-                for (int i = 0; i < 6; i++)
+                series1.Add(new ObservablePoint(0, 0));
+                for (int i = 0; i < 5; i++)
                 {
-                    if (i == 0)
+                    /*if (i == 0)
                     {
                         series1.Add(new ObservablePoint(0, 0));
                     }
-
                     if (i == 5)
                     {
                         series1.Add(new ObservablePoint(20, 20));
-                        
+
                     }
                     else
-                    {
-                        series1.Add(new ObservablePoint(arraySeries1[i], array[i]));
-                    }
+                    {*/
+                    series1.Add(new ObservablePoint(arraySeries1[i], array[i]));
+                    //}
 
                 }
-
-                for (int i = 0; i < 6; i++)
+                series1.Add(new ObservablePoint(20, 20));
+                for (int i = 0; i < 7; i++)
                 {
                     pointOfChartFirst.Add(new Tuple<double, double>(series1[i].X, series1[i].Y));
                 }
@@ -217,10 +217,10 @@ namespace Model
                     //}
                 }
                 Array.Sort(arraySeries1);
-
-                for (int i = 0; i < 6; i++)
+                series1.Add(new ObservablePoint(0, 0));
+                for (int i = 0; i < 5; i++)
                 {
-                    if (i == 0)
+                    /*if (i == 0)
                     {
                         series1.Add(new ObservablePoint(0, 0));
                     }
@@ -230,13 +230,13 @@ namespace Model
 
                     }
                     else
-                    {
+                    {*/
                         series1.Add(new ObservablePoint(arraySeries1[i], array[i]));
-                    }
+                    //}
 
                 }
-
-                for (int i = 0; i < 6; i++)
+                series1.Add(new ObservablePoint(20, 20));
+                for (int i = 0; i < 7; i++)
                 {
                     pointOfChartSecond.Add(new Tuple<double, double>(series1[i].X, series1[i].Y));
                 }
@@ -244,7 +244,7 @@ namespace Model
             }
 
 
-            Points = series;
+            
             var testSeries = new LineSeries
             {
                 Title = "Test",

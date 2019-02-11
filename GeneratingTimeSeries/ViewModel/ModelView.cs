@@ -18,6 +18,8 @@ namespace GeneratingTimeSeries.ViewModel
         public List<Tuple<double, double>> second = new List<Tuple<double, double>>();
         public IntersectionPoints IntersectionPoints = new IntersectionPoints();
         public string[] Points = new string[20];
+        public string[] Interval = new string[20];
+        public string[] Number = new string[20];
         public void BuildFunction()
         {
             randomSeries = new RandomSeries();
@@ -29,13 +31,27 @@ namespace GeneratingTimeSeries.ViewModel
 
             second = randomSeries.pointOfChartSecond;
             double[] array = IntersectionPoints.FindXFinal(first, second);
+            double[] interval = IntersectionPoints.GetInterval(first, second);
 
             for (int i = 0; i < array.Length; i++)
             {
                     Points[i] = array[i].ToString();
             }
 
+            Number = IntersectionPoints.intervals;
+            for (int i = 0; i < array.Length; i++)
+            {
+                Interval[i] = interval[i].ToString();
+            }
+        }
 
+        public void Clear()
+        {
+            first.Clear(); 
+            second.Clear();
+            Array.Clear(Points, 0, Points.Length);
+            //Array.Clear(Points, 0, Points.Length);
+            Array.Clear(Interval, 0, Interval.Length);
         }
     }
 
