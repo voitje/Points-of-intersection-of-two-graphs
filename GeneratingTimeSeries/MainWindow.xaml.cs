@@ -26,12 +26,8 @@ namespace GeneratingTimeSeries
     public partial class MainWindow : Window
     {
         public SeriesCollection SeriesCollection { get; set; }
-        public ChartValues<double> Points { get; set; }
-        public RandomSeries var;
-        public Func<double, string> YFormatter { get; set; }
+
         public string[] Labels { get; set; }
-        public Func<double> XFormatter { get; set; }
-        public string text { get; set; }
 
         public MainWindow()
         {
@@ -39,26 +35,15 @@ namespace GeneratingTimeSeries
             var test = new ModelView();
             test.BuildFunction();
             SeriesCollection = test.SeriesCollection;
-            Points = test.Points;
-            //text = test.asd;
-            text = "asd";
-            //listView.Items.Insert(0, 0);
-            //textBlock.Text = test.asd;
-            for (int i = 0; i < test.asd.Length - 1; i++)
+
+            for (int i = 0; i < test.Points.Length - 1; i+=2)
             {
-                textBlock.Inlines.Add("X: " + test.asd[i] + " | ");
-                textBlock.Inlines.Add("Y: " + test.asd[i + 1]  + "\n");
+                textBlock.Inlines.Add("X: " + test.Points[i] + " | ");
+                textBlock.Inlines.Add("Y: " + test.Points[i + 1]  + "\n");
 
             }
-            //XFormatter = val => 0.1;
-            //YFormatter = test.YFormatter;
             Labels = test.Labels;
             DataContext = this;
-        }
-       
-        private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
-        }   
+        } 
     }
 }

@@ -6,16 +6,18 @@
         xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
         xmlns:local="clr-namespace:GeneratingTimeSeries.ViewModel"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="450" Width="1051.2">
     <Window.DataContext>
         <local:ModelView/>
     </Window.DataContext>
-    <Grid>
+    <Grid Margin="0,0,-6.4,0">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="257*"/>
-            <ColumnDefinition Width="536*"/>
+            <!--<ColumnDefinition Width="269*"/>
+            <ColumnDefinition Width="358*"/>
+            <ColumnDefinition Width="110*"/>
+            <ColumnDefinition Width="91*"/>-->
         </Grid.ColumnDefinitions>
-        <lvc:CartesianChart Series="{Binding SeriesCollection}" LegendLocation="Right" Grid.ColumnSpan="2" Margin="10,0,179.6,0" >
+        <lvc:CartesianChart Series="{Binding SeriesCollection}" LegendLocation="Right" Margin="10,0,328.2,0" RenderTransformOrigin="0.197,0.489" >
             <!--<lvc:CartesianChart.AxisY>
                 <lvc:Axis Title="Y" LabelFormatter="{Binding YFormatter}"></lvc:Axis>
             </lvc:CartesianChart.AxisY>-->
@@ -27,6 +29,6 @@
                 </lvc:Axis>
             </lvc:CartesianChart.AxisX>
         </lvc:CartesianChart>
-        <TextBlock x:Name="textBlock" Grid.Column="1" HorizontalAlignment="Left" Margin="425.2,99,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="45"/>
+        <TextBlock x:Name="textBlock" HorizontalAlignment="Left" Margin="728,99,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="141" Width="294" RenderTransformOrigin="4.618,0.379"/>
     </Grid>
 </Window>

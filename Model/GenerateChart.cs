@@ -17,10 +17,10 @@ namespace Model
         public ChartValues<double> Points { get; set; }
         double[] arraySeries = new double[30];
         double[] array = new double[20];
-        double[] arraySeries1 = new double[30];
-        double[] array1 = new double[20];
-        public List<Tuple<double, double>> pointOfChartFirst = new List<Tuple<double, double>>();
-        public List<Tuple<double, double>> pointOfChartSecond = new List<Tuple<double, double>>();
+        double[] arraySeries1 = new double[5];
+
+        public readonly List<Tuple<double, double>> pointOfChartFirst = new List<Tuple<double, double>>();
+        public readonly List<Tuple<double, double>> pointOfChartSecond = new List<Tuple<double, double>>();
         public int countChart = 0;
         public IntersectionPoints IntersectionPoints;
         public LineSeries GenerateSeries(string axis)
@@ -29,10 +29,10 @@ namespace Model
             Random randomSeries = new Random();
             ChartValues<double> series = new ChartValues<double>(new double[20]);
             ChartValues<ObservablePoint> series1 = new ChartValues<ObservablePoint>();
-            /*double[] arraySeries = new double[30];
-            double[] array = new double[20];*/
+
             if (axis == "1")
             {
+                // TODO: для int
                 /*for (int i = 0; i < 5; i++)
                 {
                     double randomValue = randomSeries.Next(1, 20);
@@ -59,7 +59,7 @@ namespace Model
                     {
                         i--;
                     }
-                }*/
+                }
 
                 arraySeries[2] = 2;
                 arraySeries[16] = 16;
@@ -71,7 +71,60 @@ namespace Model
                     }
                 }
 
-                for (int i = 0; i < 2; i++)
+                for (int i = 0; i < 5; i++)
+                {
+                    pointOfChartFirst.Add(new Tuple<double, double>(series1[i].X, series1[i].Y));
+                }*/
+                //TODO: для double
+                for (int i = 0; i < 5; i++)
+                {
+                    //double randomValue = randomSeries.NextDouble() * randomSeries.Next(1, 20);
+                    double randomValue = Convert.ToDouble(randomSeries.Next(200)) / 10;
+                    if (!array.Contains(randomValue))
+                    {
+                        array[i] = randomValue;
+                    }
+                    else
+                    {
+                        i--;
+                    }
+                }
+
+                for (int i = 0; i < 5; i++)
+                {
+                    //double randomValue = randomSeries.NextDouble() * randomSeries.Next(1,20);
+                    double randomValue = Convert.ToDouble(randomSeries.Next(200)) / 10;
+                    if (!arraySeries1.Contains(randomValue))
+                    {
+                        arraySeries1[i] = randomValue;
+                    }
+                    else
+                    {
+                        i--;
+                    }
+                }
+                Array.Sort(arraySeries1);
+
+                for (int i = 0; i < 6; i++)
+                {
+                    if (i == 0)
+                    {
+                        series1.Add(new ObservablePoint(0, 0));
+                    }
+
+                    if (i == 5)
+                    {
+                        series1.Add(new ObservablePoint(20, 20));
+                        
+                    }
+                    else
+                    {
+                        series1.Add(new ObservablePoint(arraySeries1[i], array[i]));
+                    }
+
+                }
+
+                for (int i = 0; i < 6; i++)
                 {
                     pointOfChartFirst.Add(new Tuple<double, double>(series1[i].X, series1[i].Y));
                 }
@@ -80,7 +133,9 @@ namespace Model
             if (axis == "2")
             {
                 series1.Clear();
-                /*for (int i = 0; i < 5; i++)
+                //TODO: для int
+                /*
+                for (int i = 0; i < 5; i++)
                 {
                     double randomValue = randomSeries.Next(1, 20);
                     if (!array1.Contains(randomValue))
@@ -106,9 +161,9 @@ namespace Model
                     {
                         i--;
                     }
-                }*/
-                arraySeries1[2] = 16;
-                arraySeries1[16] = 2;
+                }
+                //arraySeries1[2] = 16;
+                //arraySeries1[16] = 2;
                 for (int i = 0; i < 20; i++)
                 {
                     if (arraySeries1[i] != 0)
@@ -133,6 +188,58 @@ namespace Model
                 {
                     pointOfChartSecond.Add(new Tuple<double, double>(series1[i].X, series1[i].Y));
                 }*/
+                //TODO: для double
+                for (int i = 0; i < 5; i++)
+                {
+                    //double randomValue = randomSeries.NextDouble() * randomSeries.Next(1, 20);
+                    double randomValue = Convert.ToDouble(randomSeries.Next(200)) / 10;
+                    if (!array.Contains(randomValue))
+                    {
+                        array[i] = randomValue;
+                    }
+                    else
+                    {
+                        i--;
+                    }
+                }
+
+                for (int i = 0; i < 5; i++)
+                {
+                    //double randomValue = randomSeries.NextDouble() * randomSeries.Next(1, 20);
+                    double randomValue = Convert.ToDouble(randomSeries.Next(200)) / 10;
+                    //if (!arraySeries.Contains(randomValue))
+                    //{
+                        arraySeries1[i] = randomValue;
+                    //}
+                    //else
+                    //{
+                     //   i--;
+                    //}
+                }
+                Array.Sort(arraySeries1);
+
+                for (int i = 0; i < 6; i++)
+                {
+                    if (i == 0)
+                    {
+                        series1.Add(new ObservablePoint(0, 0));
+                    }
+                    if (i == 5)
+                    {
+                        series1.Add(new ObservablePoint(20, 20));
+
+                    }
+                    else
+                    {
+                        series1.Add(new ObservablePoint(arraySeries1[i], array[i]));
+                    }
+
+                }
+
+                for (int i = 0; i < 6; i++)
+                {
+                    pointOfChartSecond.Add(new Tuple<double, double>(series1[i].X, series1[i].Y));
+                }
 
             }
 
@@ -145,24 +252,6 @@ namespace Model
             };
 
             countChart++;
-            //IntersectionPoints.pointOfChartFirst = new List<Tuple<double, double>>();
-            
-            /*if (countChart == 1)
-            {
-                for (int i = 0; i < 3; i++)
-                {
-                    pointOfChartFirst.Add(new Tuple<double, double>(series1[i].X, series1[i].Y));
-                }
-            }
-            else
-            {
-                for (int i = 0; i < 3; i++)
-                {
-                    pointOfChartSecond.Add(new Tuple<double, double>(series1[i].X, series1[i].Y));
-                }
-            }*/
-
-            
             return testSeries;
         }
     }

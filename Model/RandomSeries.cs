@@ -15,27 +15,26 @@ namespace Model
     {
         public SeriesCollection Series { get; private set; }
 
-        public SeriesCollection SeriesX { get; private set; }
+
         public List<Tuple<double, double>> pointOfChartFirst = new List<Tuple<double, double>>();
         public List<Tuple<double, double>> pointOfChartSecond = new List<Tuple<double, double>>();
 
         public ChartValues<double> Points { get; private set; }
-        double[] arraySeries = new double[30];
-        double[] array = new double[20];
+
         public SeriesCollection BuidChart()
         {
-            Random randomSeries = new Random();
+   
             var generateChart = new GenerateChart();
-            var asd = generateChart.GenerateSeries("1");
-            var asd2 = generateChart.GenerateSeries("2");
+            var firstChart = generateChart.GenerateSeries("1");
+            var secondChart = generateChart.GenerateSeries("2");
             
             pointOfChartFirst = generateChart.pointOfChartFirst;
             pointOfChartSecond = generateChart.pointOfChartSecond;
             Series = new SeriesCollection 
             {
-                asd
+                firstChart
             };
-            Series.Add(asd2);
+            Series.Add(secondChart);
             Points = generateChart.Points;
             return Series;
         }

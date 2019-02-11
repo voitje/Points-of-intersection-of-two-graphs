@@ -12,75 +12,124 @@ namespace Model
 {
     public class IntersectionPoints
     {
-        public List<Tuple<double, double>> pointOfChartFirst = new List<Tuple<double, double>>();
-        public List<Tuple<double, double>> pointOfChart1 { get; set; }
-        public List<Tuple<double, double>> pointOfChartSecond { get; set; }
-        public GenerateChart GenerateChart;
-        public int[] array = new int [20];
-        static public int FindX(int x11, int y11, int x12, int y12, int x21, int y21, int x22, int y22)
+        public double[] array = new double[20];
+        static public double FindX(double x11, double y11, double x12, double y12, double x21, 
+            double y21, double x22, double y22)
         {
-            int X = ((y21 - x21 * ((y22 - y21) / (x22 - x21))) -
+            double X = ((y21 - x21 * ((y22 - y21) / (x22 - x21))) -
                      (y11 - (x11 * (y12 - y11) / (x12 - x11)))) /
                     (((y12 - y11) / (x12 - x11)) - (y22 - y21) / (x22 - x21));
-
             return X;
 
         }
-        static public int FindY(int x11, int y11, int x12, int y12, int x21, int y21, int x22, int y22, int X)
+        static public double FindY(double x11, double y11, double x12, double y12, double x21,
+            double y21, double x22, double y22, double X)
         {
-            int Y = ((y12 - y11) / (x12 - x11)) * X + (y11 - x11 * (y12 - y11) / (x12 - x11));
+            double Y = ((y21 - y22) * (-X) - (x21 * y22 - x22 * y21)) / (x22 - x21);
             return Y;
         }
 
-        static public bool transection(int ax1, int ay1, int ax2, int ay2, int bx1, int by1, int bx2, int by2)
+        static public bool transection(double ax1, double ay1, double ax2, double ay2, 
+            double bx1, double by1, double bx2, double by2)
         {
-            int v1 = (bx2 - bx1) * (ay1 - by1) - (by2 - by1) * (ax1 - bx1);
-            int v2 = (bx2 - bx1) * (ay2 - by1) - (by2 - by1) * (ax2 - bx1);
-            int v3 = (ax2 - ax1) * (by1 - ay1) - (ay2 - ay1) * (bx1 - ax1);
-            int v4 = (ax2 - ax1) * (by2 - ay1) - (ay2 - ay1) * (bx2 - ax1);
+            double v1 = (bx2 - bx1) * (ay1 - by1) - (by2 - by1) * (ax1 - bx1);
+            double v2 = (bx2 - bx1) * (ay2 - by1) - (by2 - by1) * (ax2 - bx1);
+            double v3 = (ax2 - ax1) * (by1 - ay1) - (ay2 - ay1) * (bx1 - ax1);
+            double v4 = (ax2 - ax1) * (by2 - ay1) - (ay2 - ay1) * (bx2 - ax1);
             return ((v1 * v2 <= 0) && (v3 * v4 <= 0));
         }
 
-        public int[] FindXFinal(List<Tuple<double, double>> first, List<Tuple<double, double>> second)
+        public double[] FindXFinal(List<Tuple<double, double>> first, List<Tuple<double, double>> second)
         {
-            for (int i = 0; i < first.Count - 1; i++)
+            double [] firstX = new double[6];
+            double[] firstY = new double[6];
+            double[] secondX = new double[6];
+            double[] secondY = new double[6];
+            for (int i = 0; i < first.Count; i++)
             {
-                for (int j = 0, k = 0; j < second.Count - 1; j++)
+                firstX[i] = first[i].Item1;
+                firstY[i] = first[i].Item2;
+                secondX[i] = second[i].Item1;
+                secondY[i] = second[i].Item2;
+            }
+            for (int i = 0, k = 0; i < first.Count - 1; i++)
+            {
+                for (int j = 0; j < second.Count - 1; j++)
                 {
                     if (transection(
-                        Convert.ToInt32(first[i].Item1),
-                        Convert.ToInt32(first[i].Item2),
-                        Convert.ToInt32(first[i + 1].Item1),
-                        Convert.ToInt32(first[i + 1].Item2),
-                        Convert.ToInt32(second[j].Item1), 
-                        Convert.ToInt32(second[j].Item2),
-                        Convert.ToInt32(second[j + 1].Item1),
-                        Convert.ToInt32(second[j + 1].Item2)))
+                        firstX[i],
+                        firstY[i],
+                        firstX[i + 1],
+                        firstY[i + 1],
+                        secondX[j],
+                        secondY[j],
+                        secondX[j + 1],
+                        secondY[j + 1]))
                     {
                         array[k] = FindX(
-                            Convert.ToInt32(first[i].Item1),
-                            Convert.ToInt32(first[i].Item2),
-                            Convert.ToInt32(first[i + 1].Item1),
-                            Convert.ToInt32(first[i + 1].Item2),
-                            Convert.ToInt32(second[j].Item1),
-                            Convert.ToInt32(second[j].Item2),
-                            Convert.ToInt32(second[j + 1].Item1),
-                            Convert.ToInt32(second[j + 1].Item2));
-                        array[k + 1] = FindY(
-                            Convert.ToInt32(first[i].Item1),
-                            Convert.ToInt32(first[i].Item2),
-                            Convert.ToInt32(first[i + 1].Item1),
-                            Convert.ToInt32(first[i + 1].Item2),
-                            Convert.ToInt32(second[j].Item1),
-                            Convert.ToInt32(second[j].Item2),
-                            Convert.ToInt32(second[j + 1].Item1),
-                            Convert.ToInt32(second[j + 1].Item2),
-                            array[j]);
+                            firstX[i],
+                            firstY[i],
+                            firstX[i + 1],
+                            firstY[i + 1],
+                            secondX[j],
+                            secondY[j],
+                            secondX[j + 1],
+                            secondY[j + 1]);
 
+                        array[k + 1] = FindY(
+                            firstX[i],
+                            firstY[i],
+                            firstX[i + 1],
+                            firstY[i + 1],
+                            secondX[j],
+                            secondY[j],
+                            secondX[j + 1],
+                            secondY[j + 1],
+                            array[k]);
                         k+=2;
                     }
                 }
             }
+            
+            //TODO: бефор фикс
+            /*for (int i = 0, i1 = 1; i < first.Count - 1; i++, i1++)
+            {
+                for (int j = 0, k = 0; j < second.Count - 1; j++)
+                {
+                    if (transection(
+                        first[i].Item1,
+                        first[i].Item2,
+                        first[i + 1].Item1,
+                        first[i + 1].Item2,
+                        second[j].Item1, 
+                        second[j].Item2,
+                        second[j + 1].Item1,
+                        second[j + 1].Item2))
+                    {
+                        array[k] = FindX(
+                            first[i].Item1,
+                            first[i].Item2,
+                            first[i + 1].Item1,
+                            first[i + 1].Item2,
+                            second[j].Item1,
+                            second[j].Item2,
+                            second[j + 1].Item1,
+                            second[j + 1].Item2);
+                        array[k + 1] = FindY(
+                            first[i].Item1,
+                            first[i].Item2,
+                            first[i + 1].Item1,
+                            first[i + 1].Item2,
+                            second[j].Item1,
+                            second[j].Item2,
+                            second[j + 1].Item1,
+                            second[j + 1].Item2,
+                            array[k]);
+
+                        k+=2;
+                    }
+                }
+            }*/
 
             return array;
         }
