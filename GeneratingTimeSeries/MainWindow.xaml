@@ -31,6 +31,6 @@
         </lvc:CartesianChart>
         <TextBlock x:Name="textBlock" HorizontalAlignment="Left" Margin="728,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="155" Width="294" RenderTransformOrigin="4.618,0.379"/>
         <TextBlock x:Name="textBlockInterval" HorizontalAlignment="Left" Margin="751,170,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Height="134" Width="251"/>
-        <Button x:Name="buttonRandom" Content="Button" HorizontalAlignment="Left" Margin="809,336,0,0" VerticalAlignment="Top" Width="110" Height="37"/>
+        <Button x:Name="buttonRandom" Content="Button" HorizontalAlignment="Left" Margin="809,336,0,0" VerticalAlignment="Top" Width="110" Height="37" Click="ButtonClick"/>
     </Grid>
 </Window>

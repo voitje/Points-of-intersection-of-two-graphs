@@ -151,8 +151,6 @@ namespace Model
                 secondY[i] = second[i].Item2;
             }
 
-           
-            
             //interval[0] = 0;
             for (int i = 1, j = 1, inter = 2; i < first.Count; i++)
             {
@@ -183,33 +181,7 @@ namespace Model
                 }
 
             }
-            //for (int i = 1, j = 1; i < first.Count; i++)
-            //{
-            /*if (firstY[i] > secondY[i])
-            {
-                interval[j] = firstX[i];
-                while (firstY[i] > secondY[i])
-                {
-                    i++;
-                }
-
-                interval[j + 1] = firstX[i - 1];
-                j += 2;
-            }
-            if (firstY[i] < secondY[i])
-            {
-                interval[j] = firstY[i];
-                while (firstY[i] < secondY[i])
-                {
-                    i++;
-                }
-
-                interval[j + 1] = secondX[i - 1];
-                j += 2;
-            }
-            */
-            //}
-
+         
             return interval;
         }
 

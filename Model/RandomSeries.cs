@@ -15,11 +15,8 @@ namespace Model
     {
         public SeriesCollection Series { get; private set; }
 
-
         public List<Tuple<double, double>> pointOfChartFirst = new List<Tuple<double, double>>();
         public List<Tuple<double, double>> pointOfChartSecond = new List<Tuple<double, double>>();
-
-        public ChartValues<double> Points { get; private set; }
 
         public SeriesCollection BuidChart()
         {
@@ -35,7 +32,6 @@ namespace Model
                 firstChart
             };
             Series.Add(secondChart);
-            //Points = generateChart.Points;
             return Series;
         }
 

@@ -15,19 +15,18 @@ namespace Model
     public class GenerateChart
     {
         
-        double[] arraySeries = new double[30];
+        //double[] arraySeries = new double[30];
         double[] array = new double[20];
         double[] arraySeries1 = new double[5];
 
         public readonly List<Tuple<double, double>> pointOfChartFirst = new List<Tuple<double, double>>();
         public readonly List<Tuple<double, double>> pointOfChartSecond = new List<Tuple<double, double>>();
-        public int countChart = 0;
-        public IntersectionPoints IntersectionPoints;
+ 
         public LineSeries GenerateSeries(string axis)
         {
-            IntersectionPoints = new IntersectionPoints();
+            //IntersectionPoints = new IntersectionPoints();
             Random randomSeries = new Random();
-            ChartValues<double> series = new ChartValues<double>(new double[20]);
+            
             ChartValues<ObservablePoint> series1 = new ChartValues<ObservablePoint>();
 
             if (axis == "1")
@@ -251,7 +250,6 @@ namespace Model
                 Values = series1
             };
 
-            countChart++;
             return testSeries;
         }
     }
