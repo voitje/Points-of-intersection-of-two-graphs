@@ -12,10 +12,11 @@ namespace Model
 {
     public class IntersectionPoints
     {
-        public double[] array = new double[20];
-        public double[] interval = new double[20];
-        public string[] intervals = new string[50];
-        static public double FindX(double x11, double y11, double x12, double y12, double x21, 
+        private readonly double[] array = new double[20];
+        private readonly double[] interval = new double[20];
+        public readonly string[] intervals = new string[50];
+
+        private static double FindX(double x11, double y11, double x12, double y12, double x21, 
             double y21, double x22, double y22)
         {
             double X = ((y21 - x21 * ((y22 - y21) / (x22 - x21))) -
@@ -24,14 +25,15 @@ namespace Model
             return X;
 
         }
-        static public double FindY(double x11, double y11, double x12, double y12, double x21,
+
+        private static double FindY(double x11, double y11, double x12, double y12, double x21,
             double y21, double x22, double y22, double X)
         {
             double Y = ((y21 - y22) * (-X) - (x21 * y22 - x22 * y21)) / (x22 - x21);
             return Y;
         }
 
-        static public bool transection(double ax1, double ay1, double ax2, double ay2, 
+        private static bool transection(double ax1, double ay1, double ax2, double ay2, 
             double bx1, double by1, double bx2, double by2)
         {
             double v1 = (bx2 - bx1) * (ay1 - by1) - (by2 - by1) * (ax1 - bx1);
@@ -93,46 +95,6 @@ namespace Model
                 }
             }
             
-            //TODO: бефор фикс
-            /*for (int i = 0, i1 = 1; i < first.Count - 1; i++, i1++)
-            {
-                for (int j = 0, k = 0; j < second.Count - 1; j++)
-                {
-                    if (transection(
-                        first[i].Item1,
-                        first[i].Item2,
-                        first[i + 1].Item1,
-                        first[i + 1].Item2,
-                        second[j].Item1, 
-                        second[j].Item2,
-                        second[j + 1].Item1,
-                        second[j + 1].Item2))
-                    {
-                        array[k] = FindX(
-                            first[i].Item1,
-                            first[i].Item2,
-                            first[i + 1].Item1,
-                            first[i + 1].Item2,
-                            second[j].Item1,
-                            second[j].Item2,
-                            second[j + 1].Item1,
-                            second[j + 1].Item2);
-                        array[k + 1] = FindY(
-                            first[i].Item1,
-                            first[i].Item2,
-                            first[i + 1].Item1,
-                            first[i + 1].Item2,
-                            second[j].Item1,
-                            second[j].Item2,
-                            second[j + 1].Item1,
-                            second[j + 1].Item2,
-                            array[k]);
-
-                        k+=2;
-                    }
-                }
-            }*/
-
             return array;
         }
 
@@ -151,7 +113,6 @@ namespace Model
                 secondY[i] = second[i].Item2;
             }
 
-            //interval[0] = 0;
             for (int i = 1, j = 1, inter = 2; i < first.Count; i++)
             {
                 if (firstY[i] > secondY[i])
