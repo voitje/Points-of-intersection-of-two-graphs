@@ -1,59 +1,64 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using Autofac;
+﻿using System.Windows;
 using GeneratingTimeSeries.ViewModel;
 using LiveCharts;
-using Model;
 
 namespace GeneratingTimeSeries
 {
     /// <summary>
-    /// Логика взаимодействия для MainWindow.xaml
+    ///     Логика взаимодействия для MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window
     {
-        public SeriesCollection SeriesCollection { get; set; }
-        public string[] Labels { get; set; }
+        #region Fields
 
-        public ModelView test = new ModelView();
+        #region Readonly fields
+
+        private readonly ModelView _modelView = new ModelView();
+
+        #endregion
+
+        #endregion
+
+        #region Properties
+
+        public SeriesCollection SeriesCollection { get; set; }
+
+        #endregion
+
+        #region Constructor
 
         public MainWindow()
         {
             InitializeComponent();
             CreateProgram();
-            Labels = test.Labels;
             DataContext = this;
         }
-        void CreateProgram()
+
+        #endregion
+
+        #region Private methods
+
+        /// <summary>
+        ///     Функция передачи данных для отображения данных в программе
+        /// </summary>
+        private void CreateProgram()
         {
-            test.BuildFunction();
-            SeriesCollection = test.SeriesCollection;
+            _modelView.BuildFunction();
+            SeriesCollection = _modelView.SeriesCollection;
 
-            test.CreateTextBlock(test, "Точки пересечения", textBlock);
-            test.CreateTextBlock(test, "Интервал", textBlockInterval);
-
+            _modelView.CreateTextBlock(_modelView, "Точки пересечения", textBlock);
+            _modelView.CreateTextBlock(_modelView, "Интервал", textBlockInterval);
         }
+
         private void ButtonClick(object sender, RoutedEventArgs e)
         {
-            test.Clear(this);
+            _modelView.Clear();
             textBlock.Text = "";
             textBlockInterval.Text = "";
             SeriesCollection.Clear();
-            CreateProgram();   
+            CreateProgram();
         }
+
+        #endregion
     }
 }

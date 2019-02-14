@@ -1,12 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Security;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Navigation;
 using LiveCharts;
-using LiveCharts.Configurations;
 using LiveCharts.Defaults;
 using LiveCharts.Wpf;
 
@@ -14,30 +9,58 @@ namespace Model
 {
     public class GenerateChart
     {
-        
-        //double[] arraySeries = new double[30];
-        double[] array = new double[20];
-        double[] arraySeries1 = new double[5];
+        #region Fields
 
-        public readonly List<Tuple<double, double>> pointOfChartFirst = new List<Tuple<double, double>>();
-        public readonly List<Tuple<double, double>> pointOfChartSecond = new List<Tuple<double, double>>();
- 
-        public LineSeries GenerateSeries(string axis)
+        #region Readonly fields
+
+        /// <summary>
+        /// Рандомные точки по X
+        /// </summary>
+        private readonly double[] _randomPointsX = new double[20];
+
+        /// <summary>
+        /// Рандомные точки по Y
+        /// </summary>
+        private readonly double[] _randomPointsY = new double[5];
+
+        /// <summary>
+        /// Набор точек первого для первого графика
+        /// </summary>
+        public readonly List<Tuple<double, double>> PointOfChartFirst =
+            new List<Tuple<double, double>>();
+
+        /// <summary>
+        /// Набор точек для второго графика
+        /// </summary>
+        public readonly List<Tuple<double, double>> PointOfChartSecond =
+            new List<Tuple<double, double>>();
+
+        #endregion
+
+        #endregion
+
+        #region Public methods
+
+        /// <summary>
+        /// Функция для создания рандомных точек для графиков
+        /// </summary>
+        /// <param name="numberOfChart">Номер графика</param>
+        /// <returns></returns>
+        public LineSeries GenerateSeries(string numberOfChart)
         {
             //IntersectionPoints = new IntersectionPoints();
-            Random randomSeries = new Random();
-            
-            ChartValues<ObservablePoint> series1 = new ChartValues<ObservablePoint>();
+            var randomSeries = new Random();
 
-            if (axis == "1")
+            var chartValues = new ChartValues<ObservablePoint>();
+
+            if (numberOfChart == "1")
             {
-                // TODO: для int
-                /*for (int i = 0; i < 5; i++)
+                for (var i = 0; i < 5; i++)
                 {
-                    double randomValue = randomSeries.Next(1, 20);
-                    if (!array.Contains(randomValue))
+                    var randomValue = Convert.ToDouble(randomSeries.Next(200)) / 10;
+                    if (!_randomPointsX.Contains(randomValue))
                     {
-                        array[i] = randomValue;
+                        _randomPointsX[i] = randomValue;
                     }
                     else
                     {
@@ -45,14 +68,12 @@ namespace Model
                     }
                 }
 
-                for (int i = 0; i < 5; i++)
+                for (var i = 0; i < 5; i++)
                 {
-                    double randomValue = randomSeries.Next(1, 20);
-                    if (!arraySeries.Contains(randomValue))
+                    var randomValue = Convert.ToDouble(randomSeries.Next(200)) / 10;
+                    if (!_randomPointsY.Contains(randomValue))
                     {
-                        //series.Add(randomValue);
-                        int index = Convert.ToInt32(array[i]);
-                        arraySeries[index] = randomValue;
+                        _randomPointsY[i] = randomValue;
                     }
                     else
                     {
@@ -60,86 +81,33 @@ namespace Model
                     }
                 }
 
-                arraySeries[2] = 2;
-                arraySeries[16] = 16;
-                for (int i = 0; i < 20; i++)
+                Array.Sort(_randomPointsY);
+
+                chartValues.Add(new ObservablePoint(0, 0));
+                for (var i = 0; i < 5; i++)
                 {
-                    if (arraySeries[i] != 0)
-                    {
-                        series1.Add(new ObservablePoint(i, arraySeries[i]));
-                    }
+                    chartValues.Add(new ObservablePoint(_randomPointsY[i],
+                        _randomPointsX[i]));
                 }
 
-                for (int i = 0; i < 5; i++)
+                chartValues.Add(new ObservablePoint(20, 20));
+                for (var i = 0; i < 7; i++)
                 {
-                    pointOfChartFirst.Add(new Tuple<double, double>(series1[i].X, series1[i].Y));
-                }*/
-                //TODO: для double
-                for (int i = 0; i < 5; i++)
-                {
-                    //double randomValue = randomSeries.NextDouble() * randomSeries.Next(1, 20);
-                    double randomValue = Convert.ToDouble(randomSeries.Next(200)) / 10;
-                    if (!array.Contains(randomValue))
-                    {
-                        array[i] = randomValue;
-                    }
-                    else
-                    {
-                        i--;
-                    }
+                    PointOfChartFirst.Add(
+                        new Tuple<double, double>(chartValues[i].X, chartValues[i].Y));
                 }
-
-                for (int i = 0; i < 5; i++)
-                {
-                    //double randomValue = randomSeries.NextDouble() * randomSeries.Next(1,20);
-                    double randomValue = Convert.ToDouble(randomSeries.Next(200)) / 10;
-                    if (!arraySeries1.Contains(randomValue))
-                    {
-                        arraySeries1[i] = randomValue;
-                    }
-                    else
-                    {
-                        i--;
-                    }
-                }
-                Array.Sort(arraySeries1);
-
-                series1.Add(new ObservablePoint(0, 0));
-                for (int i = 0; i < 5; i++)
-                {
-                    /*if (i == 0)
-                    {
-                        series1.Add(new ObservablePoint(0, 0));
-                    }
-                    if (i == 5)
-                    {
-                        series1.Add(new ObservablePoint(20, 20));
-
-                    }
-                    else
-                    {*/
-                    series1.Add(new ObservablePoint(arraySeries1[i], array[i]));
-                    //}
-
-                }
-                series1.Add(new ObservablePoint(20, 20));
-                for (int i = 0; i < 7; i++)
-                {
-                    pointOfChartFirst.Add(new Tuple<double, double>(series1[i].X, series1[i].Y));
-                }
-
             }
-            if (axis == "2")
+
+            if (numberOfChart == "2")
             {
-                series1.Clear();
-                //TODO: для int
-                /*
-                for (int i = 0; i < 5; i++)
+                chartValues.Clear();
+
+                for (var i = 0; i < 5; i++)
                 {
-                    double randomValue = randomSeries.Next(1, 20);
-                    if (!array1.Contains(randomValue))
+                    var randomValue = Convert.ToDouble(randomSeries.Next(200)) / 10;
+                    if (!_randomPointsX.Contains(randomValue))
                     {
-                        array1[i] = randomValue;
+                        _randomPointsX[i] = randomValue;
                     }
                     else
                     {
@@ -147,111 +115,38 @@ namespace Model
                     }
                 }
 
-                for (int i = 0; i < 5; i++)
+                for (var i = 0; i < 5; i++)
                 {
-                    double randomValue = randomSeries.Next(1, 20);
-                    if (!arraySeries1.Contains(randomValue))
-                    {
-                        //series.Add(randomValue);
-                        int index = Convert.ToInt32(array1[i]);
-                        arraySeries1[index] = randomValue;
-                    }
-                    else
-                    {
-                        i--;
-                    }
-                }
-                //arraySeries1[2] = 16;
-                //arraySeries1[16] = 2;
-                for (int i = 0; i < 20; i++)
-                {
-                    if (arraySeries1[i] != 0)
-                    {
-                        series1.Add(new ObservablePoint(i, arraySeries1[i]));
-                    }
-                }
-                for (int i = 0; i < 2; i++)
-                {
-                    pointOfChartSecond.Add(new Tuple<double, double>(series1[i].X, series1[i].Y));
+                    var randomValue = Convert.ToDouble(randomSeries.Next(200)) / 10;
+
+                    _randomPointsY[i] = randomValue;
                 }
 
-                
-                /*for (int i = 0; i < 20; i++)
+                Array.Sort(_randomPointsY);
+                chartValues.Add(new ObservablePoint(0, 0));
+                for (var i = 0; i < 5; i++)
                 {
-                    if (arraySeries1[i] != 0)
-                    {
-                        series1.Add(new ObservablePoint(i, arraySeries1[i]));
-                    }
-                }
-                for (int i = 0; i < 5; i++)
-                {
-                    pointOfChartSecond.Add(new Tuple<double, double>(series1[i].X, series1[i].Y));
-                }*/
-                //TODO: для double
-                for (int i = 0; i < 5; i++)
-                {
-                    //double randomValue = randomSeries.NextDouble() * randomSeries.Next(1, 20);
-                    double randomValue = Convert.ToDouble(randomSeries.Next(200)) / 10;
-                    if (!array.Contains(randomValue))
-                    {
-                        array[i] = randomValue;
-                    }
-                    else
-                    {
-                        i--;
-                    }
+                    chartValues.Add(new ObservablePoint(_randomPointsY[i],
+                        _randomPointsX[i]));
                 }
 
-                for (int i = 0; i < 5; i++)
+                chartValues.Add(new ObservablePoint(20, 20));
+                for (var i = 0; i < 7; i++)
                 {
-                    //double randomValue = randomSeries.NextDouble() * randomSeries.Next(1, 20);
-                    double randomValue = Convert.ToDouble(randomSeries.Next(200)) / 10;
-                    //if (!arraySeries.Contains(randomValue))
-                    //{
-                        arraySeries1[i] = randomValue;
-                    //}
-                    //else
-                    //{
-                     //   i--;
-                    //}
+                    PointOfChartSecond.Add(
+                        new Tuple<double, double>(chartValues[i].X, chartValues[i].Y));
                 }
-                Array.Sort(arraySeries1);
-                series1.Add(new ObservablePoint(0, 0));
-                for (int i = 0; i < 5; i++)
-                {
-                    /*if (i == 0)
-                    {
-                        series1.Add(new ObservablePoint(0, 0));
-                    }
-                    if (i == 5)
-                    {
-                        series1.Add(new ObservablePoint(20, 20));
-
-                    }
-                    else
-                    {*/
-                        series1.Add(new ObservablePoint(arraySeries1[i], array[i]));
-                    //}
-
-                }
-                series1.Add(new ObservablePoint(20, 20));
-                for (int i = 0; i < 7; i++)
-                {
-                    pointOfChartSecond.Add(new Tuple<double, double>(series1[i].X, series1[i].Y));
-                }
-
             }
 
 
-            
             var testSeries = new LineSeries
             {
-                Title = "Test",
-                Values = series1
+                Values = chartValues
             };
 
             return testSeries;
         }
+
+        #endregion
     }
 }
-

@@ -1,102 +1,122 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Controls;
 using LiveCharts;
-using LiveCharts.Defaults;
 using Model;
 
 namespace GeneratingTimeSeries.ViewModel
 {
     public class ModelView
     {
-        public SeriesCollection SeriesCollection = new SeriesCollection();
-        public RandomSeries randomSeries;
+        #region Fields
+
+        #region Readonly fields
+
+        private readonly IntersectionPoints
+            _intersectionPoints = new IntersectionPoints();
+
+        /// <summary>
+        ///     Интвервал графиков
+        /// </summary>
+        private readonly double[] _interval = new double[20];
+
+        /// <summary>
+        ///     Точки пересечения
+        /// </summary>
+        private readonly string[] _points = new string[20];
+
+        /// <summary>
+        ///     Строки для TextBlock
+        /// </summary>
+        private readonly string[] _stringTextBlocks = new string[20];
+
+        public readonly SeriesCollection SeriesCollection = new SeriesCollection();
+
+        #endregion
+
+        #region Private fields
+
+        private List<Tuple<double, double>> _first = new List<Tuple<double, double>>();
+
+        private double[] _pointsOfIntersection = new double[20];
+        private RandomSeries _randomSeries;
+        private List<Tuple<double, double>> _second = new List<Tuple<double, double>>();
+
+        private List<string> _textBlocks = new List<string>();
+
+        #endregion
+
+        #endregion
+
+        #region Properties
+
         public string[] Labels { get; set; }
-        public List<Tuple<double, double>> first = new List<Tuple<double, double>>();
-        public List<Tuple<double, double>> second = new List<Tuple<double, double>>();
-        public IntersectionPoints IntersectionPoints = new IntersectionPoints();
-        private readonly string[] Points = new string[20];
-        private readonly string[] Interval = new string[20];
-        private string[] Number = new string[20];
-        private double[] arrayXY = new double[20];
-        private double[] interval = new double[20];
+
+        #endregion
+
+        #region Public methods
+
         public void BuildFunction()
         {
-            randomSeries = new RandomSeries();
+            _randomSeries = new RandomSeries();
 
-            SeriesCollection.AddRange(randomSeries.BuidChart());
+            SeriesCollection.AddRange(_randomSeries.BuidChart());
 
-            first = randomSeries.pointOfChartFirst;
-            second = randomSeries.pointOfChartSecond;
+            _first = _randomSeries.PointOfChartFirst;
+            _second = _randomSeries.PointOfChartSecond;
 
-            arrayXY = IntersectionPoints.FindXFinal(first, second);
-            interval = IntersectionPoints.GetInterval(first, second);
+            _pointsOfIntersection = _intersectionPoints.FindXFinal(_first, _second);
 
-            for (int i = 0; i < arrayXY.Length; i++)
+            _textBlocks = _intersectionPoints.GetStringInterval(_first, _second);
+
+            for (var i = 0; i < _pointsOfIntersection.Length; i++)
             {
-                Points[i] = arrayXY[i].ToString();
+                _points[i] = _pointsOfIntersection[i].ToString();
             }
 
-            Number = IntersectionPoints.intervals;
-            for (int i = 0; i < arrayXY.Length; i++)
+            for (var i = 0; i < _pointsOfIntersection.Length; i++)
             {
-                Interval[i] = interval[i].ToString();
+                _stringTextBlocks[i] = _interval[i].ToString();
             }
         }
 
-        public void CreateTextBlock(ModelView modelView, string textBlockName, TextBlock textBlock)
+        public void CreateTextBlock(ModelView modelView, string textBlockName,
+            TextBlock textBlock)
         {
             if (textBlockName == "Интервал")
             {
-                for (int i = 0; i < modelView.Interval.Length; i++)
+                for (var i = 0; i < _textBlocks.Count; i++)
                 {
-                    if (modelView.Number[i] == "1")
-                    {
-                        textBlock.Inlines.Add("\nСиний график: \n");
-                        textBlock.Inlines.Add(
-                            modelView.Interval[i - 1] + " ; " + modelView.Interval[i] + " ");
-                    }
-
-                    if (modelView.Number[i] == "2")
-                    {
-                        textBlock.Inlines.Add("\nКрасный график: \n");
-                        textBlock.Inlines.Add(
-                            modelView.Interval[i - 1] + " ; " + modelView.Interval[i] + " ");
-                    }
+                    textBlock.Inlines.Add(_textBlocks[i]);
                 }
             }
             else
             {
                 textBlock.Inlines.Add("Точки пересечения графиков: \n");
                 textBlock.Inlines.Add("X: 0 | Y: 0 \n");
-                for (int i = 0; i < modelView.Points.Length - 1; i += 2)
+                for (var i = 0; i < modelView._points.Length - 1; i += 2)
                 {
-                    if (modelView.Points[i] != "0")
+                    if (modelView._points[i] != "0")
                     {
-                        textBlock.Inlines.Add("X: " + modelView.Points[i] + " | ");
-                        textBlock.Inlines.Add("Y: " + modelView.Points[i + 1] + "\n");
+                        textBlock.Inlines.Add("X: " + modelView._points[i] + " | ");
+                        textBlock.Inlines.Add("Y: " + modelView._points[i + 1] + "\n");
                     }
                 }
             }
         }
 
 
-        public void Clear(MainWindow mainWindow)
+        public void Clear()
         {
-            first.Clear(); 
-            second.Clear();
-            Array.Clear(arrayXY, 0, arrayXY.Length);
-            Array.Clear(interval, 0, interval.Length);
+            _first.Clear();
+            _second.Clear();
+            Array.Clear(_pointsOfIntersection, 0, _pointsOfIntersection.Length);
+            Array.Clear(_interval, 0, _interval.Length);
             SeriesCollection.Clear();
-            Array.Clear(Points, 0, Points.Length);
-            Array.Clear(Interval, 0, Interval.Length);
-            Array.Clear(Number, 0, Number.Length);
+            _textBlocks.Clear();
+            Array.Clear(_points, 0, _points.Length);
         }
 
+        #endregion
     }
-
 }

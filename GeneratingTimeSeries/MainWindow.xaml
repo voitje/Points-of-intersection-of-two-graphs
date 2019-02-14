@@ -7,9 +7,9 @@
         xmlns:local="clr-namespace:GeneratingTimeSeries.ViewModel"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="1051.2">
-    <Window.DataContext>
+    <!--<Window.DataContext>
         <local:ModelView/>
-    </Window.DataContext>
+    </Window.DataContext>-->
     <Grid Margin="0,0,-6.4,0">
         <Grid.ColumnDefinitions>
             <!--<ColumnDefinition Width="269*"/>
