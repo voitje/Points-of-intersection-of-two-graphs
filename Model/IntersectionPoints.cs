@@ -249,6 +249,36 @@ namespace Model
             return sum;
         }
 
+        /// <summary>
+        /// Функция для поиска ближайщего элемента к центру пересечений
+        /// </summary>
+        /// <param name="array">Массив по X</param>
+        /// <param name="middlePointOfArray">Средняя точка между двумя пересечениями</param>
+        /// <returns></returns>
+        private static int GetIndexArray(double[] array, double middlePointOfArray)
+        {
+            double temp = 0, t = double.MaxValue;
+
+            for (var i = 0; i < array.Length; i++)
+            {
+                var a = Math.Abs(array[i] - middlePointOfArray);
+
+                if (a < t)
+                {
+                    temp = array[i];
+                    t = a;
+                }
+            }
+
+            var otvet = Array.IndexOf(array, temp);
+            if (temp > middlePointOfArray)
+            {
+                return otvet - 1;
+            }
+
+            return otvet;
+        }
+
         #endregion
 
         #region Public methods
@@ -322,53 +352,7 @@ namespace Model
             return _arrayIntersection;
         }
 
-        /*public List<string> GetInterval2(List<Tuple<double, double>> first,
-            List<Tuple<double, double>> second)
-        {
-            var firstX = new double[first.Count];
-            var firstY = new double[first.Count];
-            var secondX = new double[first.Count];
-            var secondY = new double[first.Count];
-            for (var i = 0; i < first.Count - 1; i++)
-            {
-                firstX[i] = first[i].Item1;
-                firstY[i] = first[i].Item2;
-                secondX[i] = second[i].Item1;
-                secondY[i] = second[i].Item2;
-            }
 
-            var pointsIntersection = FindXFinal(first, second);
-            double start;
-            double end;
-            double middle;
-            double ansLagrangeFirst;
-            double ansLagrangeSecond;
-            for (var i = 0; i < pointsIntersection.Length - 2; i += 2)
-            {
-                start = pointsIntersection[i];
-                end = pointsIntersection[i + 2];
-                middle = (start + end) / 2;
-                ansLagrangeFirst = lagrange(middle, firstX, firstY);
-                ansLagrangeSecond = lagrange(middle, secondX, secondY);
-                if (ansLagrangeFirst > ansLagrangeSecond)
-                {
-                    interval.Add($"Синий больше с:" + start + " до: " + end + "\n");
-                }
-
-                if (ansLagrangeFirst < ansLagrangeSecond)
-                {
-                    interval.Add($"Красный больше с:" + start + " до: " + end + "\n");
-                }
-
-                if (start == 20)
-                {
-                    return interval;
-                }
-            }
-
-            return interval;
-        }
-        */
         //TODO: В разроботке!
         public List<string> GetStringInterval(List<Tuple<double, double>> first,
             List<Tuple<double, double>> second)
@@ -377,63 +361,28 @@ namespace Model
             var firstY = new double[first.Count];
             var secondX = new double[first.Count];
             var secondY = new double[first.Count];
-            if (Check != 0)
+            for (var i = 0; i < first.Count; i++)
             {
-                for (var i = 0; i < Check; i++)
-                {
-                    firstX[i] = first[i].Item1;
-                    firstY[i] = first[i].Item2;
-                    secondX[i] = second[i].Item1;
-                    secondY[i] = second[i].Item2;
-                }
+                firstX[i] = first[i].Item1;
+                firstY[i] = first[i].Item2;
+                secondX[i] = second[i].Item1;
+                secondY[i] = second[i].Item2;
             }
 
-            if (Check == 0)
-            {
-                for (var i = 0; i < first.Count; i++)
-                {
-                    firstX[i] = first[i].Item1;
-                    firstY[i] = first[i].Item2;
-                    secondX[i] = second[i].Item1;
-                    secondY[i] = second[i].Item2;
-                }
-            }
+            var middlePoint = (_arrayIntersection[0] + _arrayIntersection[2]) / 2;
+            double ansLagrangeFirst;
+            double ansLagrangeSecond;
+            var indexFirst = GetIndexArray(firstX, middlePoint);
+            var indexSecond = GetIndexArray(secondX, middlePoint);
 
-            var qwe = secondY;
-            var asd = (_arrayIntersection[0] + _arrayIntersection[2]) / 2;
-            double ansLagrangeFirst = 0;
-            double ansLagrangeSecond = 0;
-            if (Check != 0)
-            {
-                /*double[] Xfirst = new double[]
-                    {firstX[check - 1], firstX[check], firstX[check + 1]};
+            double[] xfirst = {firstX[indexFirst], firstX[indexFirst + 1]};
+            double[] yfirst = {firstY[indexFirst], firstY[indexFirst + 1]};
 
-                double[] Yfirst = new double[]
-                    {firstY[check - 1], firstY[check], firstY[check + 1]};
+            double[] xsecond = {secondX[indexSecond], secondX[indexFirst + 1]};
+            double[] ysecond = {secondY[indexSecond], secondY[indexSecond + 1]};
 
-                double[] Xsecond = new double[]
-                    {secondX[check - 1], secondX[check], secondX[check + 1]};
-
-                double[] Ysecond = new double[]
-                    {secondY[check - 1], secondY[check], secondY[check + 1]};
-                ansLagrangeFirst = lagrange(asd, Xfirst, Yfirst);
-                ansLagrangeSecond = lagrange(asd, Xsecond, Ysecond);*/
-                ansLagrangeFirst = Lagrange(asd, firstX, secondY);
-                ansLagrangeSecond = Lagrange(asd, secondX, secondY);
-            }
-
-            if (Check == 0)
-            {
-                double[] Xfirst = {firstX[Check], firstX[Check + 1]};
-
-                double[] Yfirst = {firstY[Check], firstY[Check + 1]};
-
-                double[] Xsecond = {secondX[Check], secondX[Check + 1]};
-
-                double[] Ysecond = {secondY[Check], secondY[Check + 1]};
-                ansLagrangeFirst = Lagrange(asd, Xfirst, Yfirst);
-                ansLagrangeSecond = Lagrange(asd, Xsecond, Ysecond);
-            }
+            ansLagrangeFirst = Lagrange(middlePoint, xfirst, yfirst);
+            ansLagrangeSecond = Lagrange(middlePoint, xsecond, ysecond);
 
 
             if (ansLagrangeFirst > ansLagrangeSecond)

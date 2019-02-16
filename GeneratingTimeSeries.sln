@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.136
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ViewandViewModel", "GeneratingTimeSeries\ViewandViewModel.csproj", "{A2E12ACF-E18F-4F28-874B-7E7371043385}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeneratingTimeSeries", "GeneratingTimeSeries\GeneratingTimeSeries.csproj", "{A2E12ACF-E18F-4F28-874B-7E7371043385}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Model", "Model\Model.csproj", "{7A088365-3F40-4A89-9272-5539814E0053}"
 EndProject
