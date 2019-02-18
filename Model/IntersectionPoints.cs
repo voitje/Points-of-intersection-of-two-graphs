@@ -98,109 +98,7 @@ namespace Model
             return v1 * v2 <= 0 && v3 * v4 <= 0;
         }
 
-        /*public double[] GetInterval(List<Tuple<double, double>> first,
-            List<Tuple<double, double>> second)
-        {
-            double[] firstX = new double[7];
-            double[] firstY = new double[7];
-            double[] secondX = new double[7];
-            double[] secondY = new double[7];
-            for (int i = 0; i < first.Count; i++)
-            {
-                firstX[i] = first[i].Item1;
-                firstY[i] = first[i].Item2;
-                secondX[i] = second[i].Item1;
-                secondY[i] = second[i].Item2;
-            }
-
-            for (int i = 1, j = 1, inter = 2; i < first.Count; i++)
-            {
-                if (firstY[i] > secondY[i])
-                {
-                    
-                    while (firstY[i] > secondY[i])
-                    {
-                        i++;
-                    }
-
-                    intervals[j] = "1";
-                    interval[j] = arrayIntersection[inter];
-                    inter+=2;
-                    j++;
-                }
-                if (firstY[i] < secondY[i])
-                {
-                    while (firstY[i] < secondY[i])
-                    {
-                        i++;
-                    }
-
-                    intervals[j] = "2";
-                    interval[j] = arrayIntersection[inter];
-                    inter+=2;
-                    j++;
-                }
-
-            }
-         
-            return interval;
-        }
-        */
-        /*public static double lagrange1(double x, double[] xd, double[] yd)
-        {
-            if (xd.Length != yd.Length)
-            {
-                throw new ArgumentException(
-                    "Arrays must be of equal length."); //$NON-NLS-1$
-            }
-
-            double sum = 0;
-            for (int i = 0, n = xd.Length; i < n; i++)
-            {
-                if (x - xd[i] == 0)
-                {
-                    return yd[i];
-                }
-
-                var product = yd[i];
-                for (var j = 0; j < n; j++)
-                {
-                    if (i == j || xd[i] - xd[j] == 0)
-                    {
-                        continue;
-                    }
-
-                    product *= (x - xd[i]) / (xd[i] - xd[j]);
-                }
-
-                sum += product;
-            }
-
-            return sum;
-        }
-
-        public static double lagrange3(double x, double[] xd, double[] yd)
-        {
-            //ВТОРОЙ СПОСОБ
-            double mult;
-            double sum = 0;
-            for (var i = 0; i <= xd.Length - 1; i++)
-            {
-                mult = 1;
-                for (var j = 0; j <= xd.Length - 1; j++)
-                {
-                    if (j != i)
-                    {
-                        mult *= (x - xd[j]) / (xd[i] - xd[j]);
-                    }
-                }
-
-                sum += mult * yd[i];
-            }
-
-            return sum;
-        }
-        */
+       
         /// <summary>
         ///     Интерполяция Лагранжа
         /// </summary>
@@ -210,23 +108,6 @@ namespace Model
         /// <returns></returns>
         private static double Lagrange(double x, double[] xd, double[] yd)
         {
-            /*double result = 0; // Initialize result 
-
-            for (int i = 0; i < xd.Length; i++)
-            {
-                // Compute individual terms of above formula 
-                double term = yd[i];
-                for (int j = 0; j < xd.Length; j++)
-                {
-                    if (j != i)
-                        term = term * (x - xd[i]) / (xd[i] - xd[j]);
-                }
-
-                // Add current term to result 
-                result += term;
-            }
-
-            return result;*/
             double sum = 0;
             var factor = new double [29];
             for (var i = 0; i < xd.Length; i++)
@@ -352,8 +233,6 @@ namespace Model
             return _arrayIntersection;
         }
 
-
-        //TODO: В разроботке!
         public List<string> GetStringInterval(List<Tuple<double, double>> first,
             List<Tuple<double, double>> second)
         {
@@ -407,14 +286,18 @@ namespace Model
 
                 for (int i = 2, j = 0; i < _arrayIntersection.Length - 2; i += 2, j++)
                 {
-                    if (_arrayIntersection[i] == 20 && _arrayIntersection[i + 2] == 0)
+                    if ((_arrayIntersection[i] > 19.9 || _arrayIntersection[i] == 0) && _arrayIntersection[i + 2] == 0)
                     {
                         return _interval;
                     }
 
+                    /*if (_arrayIntersection[i] == 0 && _arrayIntersection[i + 2] > 19.9)
+                    {
+                        return _interval;
+                    }*/
                     if (j % 2 == 0)
                     {
-                        _interval.Add($"Красный больше с:" + _arrayIntersection[i] +
+                        _interval.Add($"Красный больше с: " + _arrayIntersection[i] +
                                       " до: " +
                                       _arrayIntersection[i + 2] +
                                       "\n");
@@ -430,7 +313,7 @@ namespace Model
             }
             else
             {
-                _interval.Add($"Красный больше с:" + _arrayIntersection[0] + " до: " +
+                _interval.Add($"Красный больше с: " + _arrayIntersection[0] + " до: " +
                               _arrayIntersection[2] +
                               "\n");
 
@@ -441,21 +324,24 @@ namespace Model
 
                 for (int i = 2, j = 0; i < _arrayIntersection.Length - 2; i += 2, j++)
                 {
-                    if (_arrayIntersection[i] == 20 && _arrayIntersection[i + 2] == 0)
+                    if ((_arrayIntersection[i] > 19.9 || _arrayIntersection[i] == 0) && _arrayIntersection[i + 2] == 0)
                     {
                         return _interval;
                     }
-
+                   /* if (_arrayIntersection[i] == 0 && _arrayIntersection[i + 2] > 19.9)
+                    {
+                        return _interval;
+                    }*/
                     if (j % 2 == 0)
                     {
-                        _interval.Add($"Синий больше с:" + _arrayIntersection[i] +
+                        _interval.Add($"Синий больше с: " + _arrayIntersection[i] +
                                       " до: " +
                                       _arrayIntersection[i + 2] +
                                       "\n");
                     }
                     else
                     {
-                        _interval.Add($"Красный больше с:" + _arrayIntersection[i] +
+                        _interval.Add($"Красный больше с: " + _arrayIntersection[i] +
                                       " до: " +
                                       _arrayIntersection[i + 2] +
                                       "\n");

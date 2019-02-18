@@ -6,7 +6,7 @@
         xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
         xmlns:local="clr-namespace:GeneratingTimeSeries.ViewModel"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="1051.2">
+        Title="Тестовое задание" Height="544.4" Width="1051.2">
     <!--<Window.DataContext>
         <local:ModelView/>
     </Window.DataContext>-->
@@ -29,8 +29,10 @@
                 </lvc:Axis>
             </lvc:CartesianChart.AxisX>
         </lvc:CartesianChart>
-        <TextBlock x:Name="textBlock" Text="{Binding textBlock}" HorizontalAlignment="Left" Margin="751,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="155" Width="271" RenderTransformOrigin="4.618,0.379"/>
-        <TextBlock x:Name="textBlockInterval" HorizontalAlignment="Left" Margin="751,170,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Height="134" Width="251"/>
-        <Button x:Name="buttonRandom" Content="Сгенерировать" HorizontalAlignment="Left" Margin="751,336,0,0" VerticalAlignment="Top" Width="251" Height="37" Click="ButtonClick"/>
+        <TextBlock x:Name="textBlock" Text="{Binding textBlock}" HorizontalAlignment="Left" Margin="751,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="194" Width="271"/>
+        <TextBlock x:Name="textBlockInterval" HorizontalAlignment="Left" Margin="751,209,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Height="200" Width="271"/>
+        <Button x:Name="buttonRandom" Content="Сгенерировать" HorizontalAlignment="Left" Margin="751,437,0,0" VerticalAlignment="Top" Width="251" Height="37" Click="ButtonClick"/>
     </Grid>
 </Window>
+<!--<TextBlock x:Name="textBlock" Text="{Binding textBlock}" HorizontalAlignment="Left" Margin="751,10,0,0" 
+           TextWrapping="Wrap" VerticalAlignment="Top" Height="194" Width="271" RenderTransformOrigin="4.618,0.379"/-->
